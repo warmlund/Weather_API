@@ -7,7 +7,7 @@ Defines models for the Weather data retrieved from SMHI SNOW
 
 from pydantic import BaseModel
 
-class WeatherBase(BaseModel):
+class Weather(BaseModel):
     """
     Base model for a Weather item
     """
