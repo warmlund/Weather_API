@@ -7,11 +7,18 @@ Defines models for the Weather data retrieved from SMHI SNOW
 
 from pydantic import BaseModel
 
-class Weather(BaseModel):
+class WeatherRequest(BaseModel):
     """
-    Base model for a Weather item
+    Base model for weather request item
     """
-    id: int
-    coordinate: list[float]
+    latitude: float
+    longitude: float
+
+
+
+class WeatherResponse(BaseModel):
+    """
+    Base model for a Weather response item
+    """
     time: str
     temperature: float
