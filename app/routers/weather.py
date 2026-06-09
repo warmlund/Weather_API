@@ -13,6 +13,7 @@ import os
 import json
 import httpx
 from dotenv import load_dotenv
+from utils.weather_utils import extract_temperature
 
 load_dotenv()
 router = APIRouter(tags =["weather"])
@@ -61,16 +62,7 @@ async def get_weather(lat: float, long: float, redis: Redis = Depends(get_redis)
         )
     
     weather_data = response.json()
-    temperatures = []
-
-    for entry in weather_data["timeSeries"]:
-        valid_time = entry["time"]
-        temperature = entry["data"]["air_temperature"]
-
-        temperatures.append({
-            "time": valid_time,
-            "temperature": temperature
-        })
+    temperatures = extract_temperature(weather_data)
 
     redis.setex(
         cache_key, 600, json.dumps(temperatures)
