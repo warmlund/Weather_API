@@ -1,5 +1,6 @@
 # Weather API
 > A simple API project based on [https://roadmap.sh/projects/weather-api-wrapper-service] built with FastAPI.
+>
 > The API manages:
 > - Request air temperature at time range at input coordinates from SMHI SNOW REST API
 > - Caches retrieved temperatures at Redis Cache database for 10 minutes
