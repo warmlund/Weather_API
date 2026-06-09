@@ -4,6 +4,7 @@ Util functions for weather route
 """
 def extract_temperature(weather_data: dict) -> list[dict]:
     temperatures = []
+    print(weather_data)
 
     for entry in weather_data["timeSeries"]:
         valid_time = entry["time"]
@@ -11,7 +12,7 @@ def extract_temperature(weather_data: dict) -> list[dict]:
 
         temperatures.append({
             "time": valid_time,
-            "temperature": temperature
+            "air_temperature": temperature
         })
     
     return temperatures

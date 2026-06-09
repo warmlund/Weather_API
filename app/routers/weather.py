@@ -7,13 +7,13 @@ from SMHI SNOW REST API
 
 from fastapi import  APIRouter, Depends, HTTPException
 from app.models.weather import WeatherResponse
-from app.redis import get_redis
+from app.utils.redis import get_redis, create_cache_key, get_cached_weather
 from upstash_redis import Redis
 import os
 import json
 import httpx
 from dotenv import load_dotenv
-from utils.weather_utils import extract_temperature
+from app.utils.weather_utils import extract_temperature
 
 load_dotenv()
 router = APIRouter(tags =["weather"])
@@ -37,12 +37,8 @@ async def get_weather(lat: float, long: float, redis: Redis = Depends(get_redis)
         HTTP 404 if data is not found
     """
     
-    cache_key = f"temperature:{lat}:{long}"
-    cached = redis.get(cache_key)
-    
-    if cached:
-        print("retrieving cached data..")
-        return json.loads(cached)
+    cache_key = create_cache_key(lat, long)
+    get_cached_weather(redis, cache_key)
     
     try:
         async with httpx.AsyncClient() as client:
